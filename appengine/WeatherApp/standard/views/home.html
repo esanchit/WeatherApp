@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		<meta charset = "UTF-8">
+		<title> Weather App </title>
+	</head>
+	
+	<body>
+		<h1 align='center' > Want to know about Weather?</h1>
+		<h2 align='center' > Enter the details in the form below </h2>
+		<br>
+		<form>
+			<fieldset>
+				<label><b> Enter the the city name and the country code to find the weather.</b></label>
+				<br>
+				<br>
+				<label> <b>City Name</b> (If you dont know the name you can leave this and enter the zipcode): </label>
+				<input name="text" type = "city" id="city_name">
+				<br>
+				<label> <b>Zip Code</b> (If you have written the name then leave this, or you can clear the name and write the zip code): </label>
+				<input name= "text" type= "zipCode" id = "zip_code">
+				<br>
+				<label> <b>Country Code</b> (Enter the country code of the country in ISO 3166, for the united states it is, US): </label>
+				<input name= "text" type = "country" id= "country_code">
+				<br>
+				<input type="submit" id="Weather_search">
+			</fieldset>
+		</form>
+		<br>	
+		<table>
+			<th id= "heading"></th>
+			<tr id= "main_temp"></tr>
+			<tr id= "max_temp"></tr>
+			<tr id= "min_temp"></tr>	
+			<tr id= "pressure"></tr>	
+			<tr id= "humidity"></tr>
+			<tr id= "wind_speed"></tr>
+		</table>
+		<script>
+			
+			document.addEventListener('DOMContentLoaded',weather);
+
+			function weather(){
+
+				document.getElementById('Weather_search').addEventListener('click',function(event){
+					var req = new XMLHttpRequest();
+					var city_name = document.getElementById("city_name").value;
+					var country = document.getElementById("country_code").value;
+					var country_code = country.toLowerCase(); 
+					var zip_code = document.getElementById("zip_code").value;
+					var app_Id = "&appid=5472b0d1bfe5c3038a512e60954a2410";
+
+					if (zip_code != 0){
+						req.open("GET","https://api.openweathermap.org/data/2.5/weather?zip=" + zip_code +","+ country_code + app_Id, true);
+					}
+					else{
+					req.open("GET","https://api.openweathermap.org/data/2.5/weather?q=" + city_name +","+ country_code + app_Id, true);
+					}
+		
+					req.addEventListener('load', function() {                   
+					if (req.status >= 200 && req.status < 400) {
+						var response = JSON.parse(req.responseText);
+						saving_weather_information(response);                       
+					} else {
+						console.log("error");
+					}
+    			});
+				req.send();
+				event.preventDefault();
+				})
+			}
+
+		function saving_weather_information(response){
+			document.getElementById("heading").textContent = "Weather Report of the City you asked is below: ";
+    		document.getElementById("main_temp").textContent = "Temperature: " + response.main.temp;
+    		document.getElementById("max_temp").textContent = "Maximum Temperature: " + response.main.temp_max;
+    		document.getElementById("min_temp").textContent = "Minimum Temperature: " + response.main.temp_min;
+    		document.getElementById("pressure").textContent = "Pressure: " + response.main.pressure;
+    		document.getElementById("humidity").textContent = "Humidity: " + response.main.humidity;
+    		document.getElementById("wind_speed").textContent = "Wind Speed: " + response.wind.speed;
+    
+		}
+		</script>
+	</body>
+
+</html>

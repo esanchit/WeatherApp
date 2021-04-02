@@ -1,17 +1,23 @@
 {
-  "name": "cs493-my-node",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+  "name": "nodejs-docs-samples",
+  "description": "Node.js samples found on https://cloud.google.com",
+  "license": "Apache-2.0",
+  "author": "Google Inc.",
+  "engines": {
+    "node": ">=10"
   },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "path": "^0.12.7"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GoogleCloudPlatform/nodejs-docs-samples.git"
+  },
+  "private": true,
+  "scripts": {
+    "lint": "gts check",
+    "fix": "gts fix",
+    "test": "echo 'Please run tests in each sample directory.' && exit 1"
+  },
+  "devDependencies": {
+    "gts": "^3.0.0",
+    "typescript": "^4.0.5"
   }
 }
